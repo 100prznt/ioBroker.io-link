@@ -1,0 +1,17 @@
+/* You can delete those if you want. I just found them very helpful */
+* {
+    box-sizing: border-box
+}
+.m {
+    /* Don't cut off dropdowns! */
+    overflow: initial;
+}
+
+/* Add your styles here */
+
+/* Header section*/
+#header-area {margin-top: 2px; margin-bottom: 5px; background-color:#7b5000;}
+#header-area #header-logo-title .logo {float:left; margin-right: 10px;}
+#header-area #header-logo-title p {line-height: normal !important; margin: 0 !important; padding: 8px 0 0 8px;}
+#header-area #header-logo-title p>span.h-title {font-size: 2em !important; color:white; }
+#header-area #header-logo-title p>span.h-sub-title {font-size: 1.1em !important; color:white; font-style: italic; }

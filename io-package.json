@@ -1,0 +1,95 @@
+{
+	"common": {
+		"name": "io-link",
+		"version": "0.1.1",
+		"news": {
+			"0.1.1": {
+				"en": "Rename adapter and generalize function for different IO-Link sensors",
+				"de": "Umbenennung des Adapters, Funktion jetzt universell für verschiedene IO-Link Sensoren",
+				"ru": "Переименовать адаптер и обобщить функцию для различных датчиков IO-Link",
+				"pt": "Renomear o adaptador e generalizar a função para diferentes sensores IO-Link",
+				"nl": "Vertaling:",
+				"fr": "Renommer l'adaptateur et généraliser la fonction pour différents capteurs IO-Link",
+				"it": "Rinomina adattatore e generalizza la funzione per diversi sensori IO-Link",
+				"es": "Adaptador de renombre y generalizar función para diferentes sensores IO-Link",
+				"pl": "Zastosowanie adapter i uogólnienie funkcji dla różnych czujników IO-Link",
+				"zh-cn": "不同天体的传感器的适应和普遍化功能"
+			},
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "начальный выпуск",
+				"pt": "lançamento inicial",
+				"nl": "niet",
+				"fr": "initial release",
+				"it": "rilascio iniziale",
+				"es": "liberación inicial",
+				"pl": "pierwsze wydanie",
+				"zh-cn": "初步释放"
+			}
+		},
+		"titleLang": {
+			"en": "IO-Link Master",
+			"de": "IO-Link Master",
+			"ru": "IO-Link Мастер",
+			"pt": "IO-Link Master",
+			"nl": "IO-Link Master",
+			"fr": "IO-Link Master",
+			"it": "Master IO-Link",
+			"es": "IO-Link Master",
+			"pl": "IO-Link Master",
+			"zh-cn": "IO-Link Master"
+		},
+		"desc": {
+			"en": "Records process data from IO-Link sensors connected to an IFM IO-Link master with IoT interface (AL1x5x).",
+			"de": "Erfasst Prozessdaten von IO-Link Sensoren, welche an einen IFM IO-Link Master mit IoT-Schnittstelle (AL1x5x) angeschlossen sind.",
+			"ru": "Записи обрабатывают данные с датчиков IO-Link, подключенных к мастеру IFM IO-Link с интерфейсом IoT (AL1x5x).",
+			"pt": "Registra dados de processo de sensores IO-Link conectados a um mestre IFM IO-Link com interface IoT (AL1x5x).",
+			"nl": "Verwerkingsgegevens van IO-Link sensoren verbonden aan een IFM IO-Link meester met IoT interface (AL1x5).",
+			"fr": "Enregistre les données de process des capteurs IO-Link connectés à un master IO-Link IFM avec interface IoT (AL1x5x).",
+			"it": "Registra i dati di processo dei sensori IO-Link collegati a un master IO-Link IFM con interfaccia IoT (AL1x5x).",
+			"es": "Datos de proceso de registros de sensores IO-Link conectados a un maestro IFM IO-Link con interfaz IoT (AL1x5x).",
+			"pl": "Dane pochodzące z IO-Link sensorów powiązanych z IO-Link master z interfejsem IoT (AL1x5x).",
+			"zh-cn": "IoT接口(AL1x5x)的录音传感器记录过程数据。."
+		},
+		"authors": [
+			"Elias Ruemmler <pool@100prznt.de>"
+		],
+		"keywords": [
+			"pool",
+			"pump",
+			"flow",
+			"ifm",
+			"iolink",
+			"flowmeter"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "logo.png",
+		"enabled": true,
+		"extIcon": "https://github.com/100prznt/ioBroker.io-link/blob/master/admin/logo.png",
+		"loglevel": "info",
+		"restartAdapters": [
+			"io-link"
+		],
+		"mode": "schedule",
+		"schedule": "*/1 * * * *",
+		"type": "misc-data",
+		"compact": true,
+		"materialize": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"ifmSmA1x5xIp": "",
+		"ifmSmIoLinkPort": "1"
+	},
+	"objects": [],
+	"instanceObjects": []
+}
