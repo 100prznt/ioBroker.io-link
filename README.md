@@ -6,7 +6,7 @@
 Rename adapter and generalize function for different IO-Link sensors
 
 ### Description
-This adapter enables the integration of IO-Link sensors.
+This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Master with IoT capabilites (AL1x5x).
 
 ![Screenshot - Object tree](docu/Screenshot_ObjectTree.png)
 
@@ -20,7 +20,7 @@ This adapter enables the integration of IO-Link sensors.
 ### Usage
 * Install this adapter to ioBroker (Expert mode -> install from url)
 * Create an instance of this adapter
-* Enter your AL1350/AL1352 IP address
+* Enter your AL1x5x IP address
 
 ## Changelog
 * 0.1.1 Rename adapter and generalize function for different IO-Link sensors
