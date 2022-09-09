@@ -5,7 +5,7 @@
 ### 0.1.1
 Rename adapter and generalize function for different IO-Link sensors
 
-### Description
+## Description
 This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Master with IoT capabilites (AL1x5x).
 
 ![Screenshot - Object tree](docu/Screenshot_ObjectTree.png)
@@ -20,8 +20,8 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 | Ethernet out connector | M12 female         | M12 female         | M12 female         | M12 female         | RJ45               |
 | Power in  connector    | M12 male           | M12 male           | M12 male           | M12 male           | screw terminals    |
 | Environment            | field              | field              | field              | field              | cabinet            |
-| Protection type        | IP 67              | IP 69K             | IP 67              | IP 69K             | IP20               |
 | Hygienic design        |                    | :heavy_check_mark: |                    | :heavy_check_mark: |                    |
+| Protection type        | IP 67              | IP 69K             | IP 67              | IP 69K             | IP20               |
 
 ### Supported sensors
 
@@ -30,10 +30,10 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 * Pressure sensors (also for manometric level measurement) from the manufacturer IFM
 
 
-### Usage
+## Usage
 * Install this adapter to ioBroker (Expert mode -> install from url)
 * Create an instance of this adapter
-* Enter your AL1x5x IP address
+* Enter your IO-Link master IP address
 
 ## Changelog
 * 0.1.1 Rename adapter and generalize function for different IO-Link sensors
