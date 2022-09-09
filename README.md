@@ -10,6 +10,19 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 
 ![Screenshot - Object tree](docu/Screenshot_ObjectTree.png)
 
+### Supported IO-Link masters
+
+| Master                 | AL1350             | AL1351             | AL1352             | AL1353             | AL1950             |
+|------------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| IO-Link ports          | 4                  | 4                  | 8                  | 8                  | 8                  |
+| IO-Link connector      | M12                | M12                | M12                | M12                | screw terminals    |
+| Ethernet in connector  | M12 female         | M12 female         | M12 female         | M12 female         | RJ45               |
+| Ethernet out connector | M12 female         | M12 female         | M12 female         | M12 female         | RJ45               |
+| Power in  connector    | M12 male           | M12 male           | M12 male           | M12 male           | screw terminals    |
+| Environment            | field              | field              | field              | field              | cabinet            |
+| Protection type        | IP 67              | IP 69K             | IP 67              | IP 69K             | IP20               |
+| Hygienic design        |                    | :heavy_check_mark: |                    | :heavy_check_mark: |                    |
+
 ### Supported sensors
 
 * [Magnetic-inductive volumetric flow meters from the manufacturer IFM](devices/IfmFlowSensor)
