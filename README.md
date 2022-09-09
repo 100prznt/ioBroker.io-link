@@ -11,7 +11,6 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 ![Screenshot - Object tree](docu/Screenshot_ObjectTree.png)
 
 ### Supported IO-Link masters
-
 | Master                 | AL1350             | AL1351             | AL1352             | AL1353             | AL1950             |
 |------------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
 | IO-Link ports          | 4                  | 4                  | 8                  | 8                  | 8                  |
@@ -24,14 +23,12 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 | Protection type        | IP 67              | IP 69K             | IP 67              | IP 69K             | IP20               |
 
 #### Available master process data
-
 * Status
 * Current
 * Voltage
 * Temperature
 
 #### Available master info data
-
 * Software revision
 * Bootloader revision
 * Hardware revision
@@ -39,9 +36,7 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 * MAC
 
 #### Available IO-Link device info data
-
 For each connected IO-Link device/sensor the following data are provided:
-
 * Communication mode
 * Master cycletime
 * Sensor ID
@@ -50,7 +45,6 @@ For each connected IO-Link device/sensor the following data are provided:
 * Device status
 
 ### Supported sensors
-
 * [Magnetic-inductive volumetric flow meters from the manufacturer IFM](devices/IfmFlowSensor)
 * Pressure sensors from the manufacturer WIKA
 * Pressure sensors (also for manometric level measurement) from the manufacturer IFM
