@@ -23,16 +23,14 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 | Hygienic design        |                    | :heavy_check_mark: |                    | :heavy_check_mark: |                    |
 | Protection type        | IP 67              | IP 69K             | IP 67              | IP 69K             | IP20               |
 
-#### Available data
-
-##### Master process data
+#### Available master process data
 
 * Status
 * Current
 * Voltage
 * Temperature
 
-##### Master info data
+#### Available master info data
 
 * Software revision
 * Bootloader revision
@@ -40,7 +38,7 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 * Serial number
 * MAC
 
-##### IO-Link device info data
+#### Available IO-Link device info data
 
 For each connected IO-Link device/sensor the following data are provided:
 
