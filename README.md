@@ -23,6 +23,34 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 | Hygienic design        |                    | :heavy_check_mark: |                    | :heavy_check_mark: |                    |
 | Protection type        | IP 67              | IP 69K             | IP 67              | IP 69K             | IP20               |
 
+#### Available data
+
+##### Master process data
+
+* Status
+* Current
+* Voltage
+* Temperature
+
+##### Master info data
+
+* Software revision
+* Bootloader revision
+* Hardware revision
+* Serial number
+* MAC
+
+##### IO-Link device info data
+
+For each connected IO-Link device/sensor the following data are provided:
+
+* Communication mode
+* Master cycletime
+* Sensor ID
+* Vendor ID
+* Serial number
+* Device status
+
 ### Supported sensors
 
 * [Magnetic-inductive volumetric flow meters from the manufacturer IFM](devices/IfmFlowSensor)

@@ -15,6 +15,10 @@ This adapter enables the integration of a magnetic-inductive volumetric flow met
 
 __SM0505__ and __SM0510__ are also supported.
 
+
+All technical details of the magnetic-inductive volumetric flow meters you can find on the IFM web page.
+* [Magnetic-inductive volumetric flow meters](https://www.ifm.com/de/en/category/200_020_030_010_010#/best/1/100)
+
 ### Available process data
 
 * Flowrate [l/min]
@@ -22,6 +26,3 @@ __SM0505__ and __SM0510__ are also supported.
 * Total counter [l]
 * Out1
 * Out2
-
-All technical details of the magnetic-inductive volumetric flow meters you can find on the IFM web page.
-* [Magnetic-inductive volumetric flow meters](https://www.ifm.com/de/en/category/200_020_030_010_010#/best/1/100)
