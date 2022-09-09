@@ -23,7 +23,7 @@ This adapter enables the integration of IO-Link sensors, thru a IFM IO-Link Mast
 | Protection type        | IP 67              | IP 69K             | IP 67              | IP 69K             | IP20               |
 
 All technical details of the IO-Link masters you can find on the IFM web page.
-* [IO-Link master](https://www.ifm.com/de/en/category/245_010_010)
+* [IFM IO-Link masters](https://www.ifm.com/de/en/category/245_010_010)
 
 #### Available master process data
 * Status
