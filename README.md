@@ -13,6 +13,8 @@ This adapter enables the integration of IO-Link sensors.
 ### Supported sensors
 
 * [Magnetic-inductive volumetric flow meters from the manufacturer IFM](devices/IfmFlowSensor)
+* Pressure sensors from the manufacturer WIKA
+* Pressure sensors (also for manometric level measurement) from the manufacturer IFM
 
 
 ### Usage
