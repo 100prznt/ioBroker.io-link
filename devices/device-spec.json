@@ -1,0 +1,96 @@
+{
+    "deviceSpecName": "IFM 16 bit pressure sensor",
+    "deviceClass": "PressureSensor",
+    "supportedDeviceIds": {
+        "310": [
+            "982"
+        ]
+    },
+    "processDataIn": [
+        {
+            "name": "pressure",
+            "minValue": -1250,
+            "maxValue": 26250,
+            "states": [
+                {
+                    "state": "UL",
+                    "value": -32760
+                },
+                {
+                    "state": "OL",
+                    "value": 32760
+                },
+                {
+                    "state": "NoData",
+                    "value": 32764
+                }
+            ],
+            "bitWidth": 16,
+            "bitOffset": 16,
+            "encoding": "integer",
+            "stateConfiguration": {
+                "name": "Current Pressure",
+                "unit": "Pa",
+                "type": "number",
+                "role": "value",
+                "scalingFactor": 0.01,
+                "scalingOffset": 0,
+                "generateStatus": true,
+                "generateChannel": true
+            }
+        },
+        {
+            "name": "devicestate",
+            "states": [
+                {
+                    "state": "Device OK",
+                    "value": 0
+                },
+                {
+                    "state": "Maintanence required",
+                    "value": 1
+                },
+                {
+                    "state": "Out of specification",
+                    "value": 2
+                },
+                {
+                    "state": "Function check",
+                    "value": 3
+                },
+                {
+                    "state": "Error",
+                    "value": 4
+                }
+            ],
+            "bitWidth": 4,
+            "bitOffset": 4,
+            "encoding": "integer",
+            "stateConfiguration": {
+                "name": "Current Device State",
+                "type": "string",
+                "role": "info"
+            }
+        },
+        {
+            "name": "out2",
+            "bitWidth": 1,
+            "bitOffset": 1,
+            "stateConfiguration": {
+                "name": "Diital Out 2",
+                "type": "boolean",
+                "role": "indicator"
+            }
+        },
+        {
+            "name": "out1",
+            "bitWidth": 1,
+            "bitOffset": 0,
+            "stateConfiguration": {
+                "name": "Diital Out 1",
+                "type": "boolean",
+                "role": "indicator"
+            }
+        }
+    ]
+}
