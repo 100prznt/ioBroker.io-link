@@ -9,33 +9,51 @@ const adapter = new utils.Adapter('io-link');
 // additional required packackages
 const axios = require('axios');
 
+const getPortData = async (endpoint, iolinkport) => {
+	try {
+		//sensor info and process data requests
+		//let requestSensorData = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/pdin/getdata`);
+		let requestSensorName = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/productname/getdata`);
+		let requestSensorComSpeed = getRequestBody(`/iolinkmaster/port[${iolinkport}]/comspeed/getdata`);
+		let requestSensorCycletime = getRequestBody(`/iolinkmaster/port[${iolinkport}]/mastercycletime_actual/getdata`);
+		let requestSensorVendorId = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/vendorid/getdata`);
+		let requestSensorId = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/deviceid/getdata`);
+		let requestDeviceSn = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/serial/getdata`);
+		let requestSensorStatus = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/status/getdata`);
+	} catch (error) {
+		adapter.log.info('IO-Link adapter - ERROR: ' + error);
+		adapter.log.error(error);
+		adapter.stop();
+	}
+}
+
 // function for fetching data
 const getData = async (endpoint, iolinkport) => {
 	try {
 		//sensor info and process data requests
-		var requestSensorData = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/pdin/getdata`);
-		var requestSensorName = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/productname/getdata`);
-		var requestSensorComSpeed = getRequestBody(`/iolinkmaster/port[${iolinkport}]/comspeed/getdata`);
-		var requestSensorCycletime = getRequestBody(`/iolinkmaster/port[${iolinkport}]/mastercycletime_actual/getdata`);
-		var requestSensorVendorId = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/vendorid/getdata`);
-		var requestSensorId = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/deviceid/getdata`);
-		var requestDeviceSn = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/serial/getdata`);
-		var requestSensorStatus = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/status/getdata`);
+		let requestSensorData = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/pdin/getdata`);
+		let requestSensorName = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/productname/getdata`);
+		let requestSensorComSpeed = getRequestBody(`/iolinkmaster/port[${iolinkport}]/comspeed/getdata`);
+		let requestSensorCycletime = getRequestBody(`/iolinkmaster/port[${iolinkport}]/mastercycletime_actual/getdata`);
+		let requestSensorVendorId = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/vendorid/getdata`);
+		let requestSensorId = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/deviceid/getdata`);
+		let requestDeviceSn = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/serial/getdata`);
+		let requestSensorStatus = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/status/getdata`);
 
 		//master info and process data requests
-		var requestMasterCurrent = getRequestBody(`/processdatamaster/current/getdata`);
-		var requestMasterCurrentUnit = getRequestBody(`/processdatamaster/current/unit/getdata`);
-		var requestMasterVoltage = getRequestBody(`/processdatamaster/voltage/getdata`);
-		var requestMasterVoltageUnit = getRequestBody(`/processdatamaster/voltage/unit/getdata`);
-		var requestMasterTemperature = getRequestBody(`/processdatamaster/temperature/getdata`);
-		var requestMasterTemperatureUnit = getRequestBody(`/processdatamaster/temperature/unit/getdata`);
-		var requestMasterStatus = getRequestBody(`/processdatamaster/supervisionstatus/getdata`);
-		var requestMasterName = getRequestBody(`/deviceinfo/productcode/getdata`);
-		var requestMasterSerial = getRequestBody(`/deviceinfo/serialnumber/getdata`);
-		var requestMasterSoftwareRevision = getRequestBody(`/deviceinfo/swrevision/getdata`);
-		var requestMasterBootloaderRevision = getRequestBody(`/deviceinfo/bootloaderrevision/getdata`);
-		var requestMasterHardwareRevision = getRequestBody(`/deviceinfo/hwrevision/getdata`);
-		var requestMasterMac = getRequestBody(`/iotsetup/network/macaddress/getdata`);
+		let requestMasterCurrent = getRequestBody(`/processdatamaster/current/getdata`);
+		let requestMasterCurrentUnit = getRequestBody(`/processdatamaster/current/unit/getdata`);
+		let requestMasterVoltage = getRequestBody(`/processdatamaster/voltage/getdata`);
+		let requestMasterVoltageUnit = getRequestBody(`/processdatamaster/voltage/unit/getdata`);
+		let requestMasterTemperature = getRequestBody(`/processdatamaster/temperature/getdata`);
+		let requestMasterTemperatureUnit = getRequestBody(`/processdatamaster/temperature/unit/getdata`);
+		let requestMasterStatus = getRequestBody(`/processdatamaster/supervisionstatus/getdata`);
+		let requestMasterName = getRequestBody(`/deviceinfo/productcode/getdata`);
+		let requestMasterSerial = getRequestBody(`/deviceinfo/serialnumber/getdata`);
+		let requestMasterSoftwareRevision = getRequestBody(`/deviceinfo/swrevision/getdata`);
+		let requestMasterBootloaderRevision = getRequestBody(`/deviceinfo/bootloaderrevision/getdata`);
+		let requestMasterHardwareRevision = getRequestBody(`/deviceinfo/hwrevision/getdata`);
+		let requestMasterMac = getRequestBody(`/iotsetup/network/macaddress/getdata`);
 
 		
 		let masterDeviceName = await getValue(endpoint, requestMasterName);
