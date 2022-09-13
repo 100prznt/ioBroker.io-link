@@ -15,12 +15,12 @@ const getPortData = async (endpoint, iolinkport, portschannelpath) => {
 		let requestSensorComSpeed =  getRequestBody(`/iolinkmaster/port[${iolinkport}]/comspeed/getdata`);
 		let requestSensorCycletime = getRequestBody(`/iolinkmaster/port[${iolinkport}]/mastercycletime_actual/getdata`);
 
-		let requestSensorName =      getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/productname/getdata`);
 		let requestSensorVendorId =  getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/vendorid/getdata`);
 		let requestSensorId =        getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/deviceid/getdata`);
+		let requestSensorName =      getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/productname/getdata`);
 		let requestDeviceSn =        getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/serial/getdata`);
 		let requestSensorStatus =    getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/status/getdata`);
-		//let requestSensorData = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/pdin/getdata`);
+		let requestSensorData = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/pdin/getdata`);
 
 		
 
@@ -36,6 +36,13 @@ const getPortData = async (endpoint, iolinkport, portschannelpath) => {
 				comSpeed = 'COM3 (230.4 kBaud)';
 				break;
 		}
+		let cycletime = await getValue(endpoint, requestSensorCycletime) / 1000;
+
+		//TODO: Abbrechen wenn Port leer
+		let vendorid = await getValue(endpoint, requestSensorVendorId);
+		let sensorid = await getValue(endpoint, requestSensorId);
+		let sensorName = await getValue(endpoint, requestSensorName);
+		let serialnumber = await getValue(endpoint, requestDeviceSn);
 		let deviceStatus = '';
 		switch(await getValue(endpoint, requestSensorStatus)) {
 			case 0:
@@ -51,11 +58,7 @@ const getPortData = async (endpoint, iolinkport, portschannelpath) => {
 				deviceStatus = 'Communication error';
 				break;
 		}
-		let cycletime = await getValue(endpoint, requestSensorCycletime) / 1000;
-		let sensorName = await getValue(endpoint, requestSensorName);
-		let vendorid = await getValue(endpoint, requestSensorVendorId);
-		let sensorid = await getValue(endpoint, requestSensorId);
-		let serialnumber = await getValue(endpoint, requestDeviceSn);
+		let processdatain = await getValue(endpoint, requestSensorData);
 
 
 		let idPort = `${portschannelpath}.${iolinkport}`
@@ -67,6 +70,7 @@ const getPortData = async (endpoint, iolinkport, portschannelpath) => {
 
 		//Prepare state tree
 		generateChannelObject(idPort, `IO-Link Port ${iolinkport}`);
+		generateChannelObject(idIoLink, 'IO-Link');
 		generateDeviceObject(idDevice, sensorName);
 		generateChannelObject(idProcessDataIn, 'Processdata In');
 		generateChannelObject(idInfo, `Info`);
@@ -79,6 +83,8 @@ const getPortData = async (endpoint, iolinkport, portschannelpath) => {
 		generateStateObject(`${idInfo}.vendorid`, 'Vendor ID', 'value', 'string', vendorid);
 		generateStateObject(`${idInfo}.sensorid`, 'Sensor ID', 'value', 'string', sensorid);
 		generateStateObject(`${idInfo}.serialnumber`, 'Serial number', 'value', 'string', serialnumber);
+
+		generateStateObject(`${idProcessDataIn}.raw`, 'PDI', 'value', 'string', processdatain);
 
 	} catch (error) {
 		adapter.log.info('IO-Link adapter - ERROR: ' + error);
@@ -179,6 +185,7 @@ const getData = async (endpoint, iolinkport) => {
 		var idSensor = `${masterDeviceName}.${iolinkport}.${sensorName}`;
 
 		generateChannelObject(`${masterDeviceName}.iolinkports`, 'IO-Link Ports')
+		await getPortData(endpoint, 1, `${masterDeviceName}.iolinkports`);
 		await getPortData(endpoint, 2, `${masterDeviceName}.iolinkports`);
 
 
