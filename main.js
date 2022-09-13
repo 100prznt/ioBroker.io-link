@@ -9,17 +9,77 @@ const adapter = new utils.Adapter('io-link');
 // additional required packackages
 const axios = require('axios');
 
-const getPortData = async (endpoint, iolinkport) => {
+const getPortData = async (endpoint, iolinkport, portschannelpath) => {
 	try {
 		//sensor info and process data requests
-		//let requestSensorData = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/pdin/getdata`);
-		let requestSensorName = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/productname/getdata`);
-		let requestSensorComSpeed = getRequestBody(`/iolinkmaster/port[${iolinkport}]/comspeed/getdata`);
+		let requestSensorComSpeed =  getRequestBody(`/iolinkmaster/port[${iolinkport}]/comspeed/getdata`);
 		let requestSensorCycletime = getRequestBody(`/iolinkmaster/port[${iolinkport}]/mastercycletime_actual/getdata`);
-		let requestSensorVendorId = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/vendorid/getdata`);
-		let requestSensorId = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/deviceid/getdata`);
-		let requestDeviceSn = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/serial/getdata`);
-		let requestSensorStatus = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/status/getdata`);
+
+		let requestSensorName =      getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/productname/getdata`);
+		let requestSensorVendorId =  getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/vendorid/getdata`);
+		let requestSensorId =        getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/deviceid/getdata`);
+		let requestDeviceSn =        getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/serial/getdata`);
+		let requestSensorStatus =    getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/status/getdata`);
+		//let requestSensorData = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/pdin/getdata`);
+
+		
+
+		let comSpeed = '';
+		switch(await getValue(endpoint, requestSensorComSpeed)) {
+			case 0:
+				comSpeed = 'COM1 (4.8 kBaud)';
+				break;
+			case 1:
+				comSpeed = 'COM2 (38.4 kBaud)';
+				break;
+			case 2:
+				comSpeed = 'COM3 (230.4 kBaud)';
+				break;
+		}
+		let deviceStatus = '';
+		switch(await getValue(endpoint, requestSensorStatus)) {
+			case 0:
+				deviceStatus = 'Not connected';
+				break;
+			case 1:
+				deviceStatus = 'Preoperate';
+				break;
+			case 2:
+				deviceStatus = 'Operate';
+				break;
+			case 3:
+				deviceStatus = 'Communication error';
+				break;
+		}
+		let cycletime = await getValue(endpoint, requestSensorCycletime) / 1000;
+		let sensorName = await getValue(endpoint, requestSensorName);
+		let vendorid = await getValue(endpoint, requestSensorVendorId);
+		let sensorid = await getValue(endpoint, requestSensorId);
+		let serialnumber = await getValue(endpoint, requestDeviceSn);
+
+
+		let idPort = `${portschannelpath}.${iolinkport}`
+		let idIoLink = `${idPort}.iolink`;
+		let idDevice = `${idPort}.${sensorName}`;
+		let idProcessDataIn = `${idDevice}.processdatain`;
+		let idInfo = `${idDevice}.info`;
+
+
+		//Prepare state tree
+		generateChannelObject(idPort, `IO-Link Port ${iolinkport}`);
+		generateDeviceObject(idDevice, sensorName);
+		generateChannelObject(idProcessDataIn, 'Processdata In');
+		generateChannelObject(idInfo, `Info`);
+
+		//Write states
+		generateStateObject(`${idIoLink}.comspeed`, 'Communication Mode', 'value', 'string', comSpeed);
+		generateStateObject(`${idIoLink}.mastercycletime`, 'Master Cycletime', 'value.interval', 'number', cycletime);
+
+		generateStateObject(`${idInfo}.status`, 'Device status', 'info.status', 'string', deviceStatus);
+		generateStateObject(`${idInfo}.vendorid`, 'Vendor ID', 'value', 'string', vendorid);
+		generateStateObject(`${idInfo}.sensorid`, 'Sensor ID', 'value', 'string', sensorid);
+		generateStateObject(`${idInfo}.serialnumber`, 'Serial number', 'value', 'string', serialnumber);
+
 	} catch (error) {
 		adapter.log.info('IO-Link adapter - ERROR: ' + error);
 		adapter.log.error(error);
@@ -117,6 +177,10 @@ const getData = async (endpoint, iolinkport) => {
 		});
 
 		var idSensor = `${masterDeviceName}.${iolinkport}.${sensorName}`;
+
+		generateChannelObject(`${masterDeviceName}.iolinkports`, 'IO-Link Ports')
+		await getPortData(endpoint, 2, `${masterDeviceName}.iolinkports`);
+
 
 		adapter.setObjectNotExists(idSensor, {
 			type: 'device',
@@ -228,7 +292,7 @@ const getData = async (endpoint, iolinkport) => {
 		adapter.setState(`${idProcessData}.out2`, out1Value, true);
 
 
-
+		//#################################################################################
 		//IO-Link infos
 
 		let comSpeed = '';
@@ -353,6 +417,7 @@ const getData = async (endpoint, iolinkport) => {
 		adapter.setState(`${idIoLink}.serialnumber`, serialnumber, true);
 
 
+		//###############################################################################
 		//Master process data
 
 		let masterStatus = '';
@@ -536,6 +601,61 @@ const getValue = async (endpoint, request) => {
 		headers: {'content-type' : 'application/json'}
 	});
 	return res.data['data']['value'];
+}
+
+/**
+ * @param {string} id
+ * @param {string} name
+ */
+function generateChannelObject(id, name) {
+	//TODO: manuell prüfen ob channel schon existiert?
+	adapter.setObjectNotExists(id, {
+		type: 'channel',
+		common: {
+			name: name,
+			read: true,
+			write: false
+		}
+	});
+}
+
+/**
+ * @param {string} id
+ * @param {any} name
+ */
+function generateDeviceObject(id, name) {
+	//TODO: manuell prüfen ob device schon existiert?
+	adapter.setObjectNotExists(id, {
+		type: 'device',
+		common: {
+			name: name,
+			read: true,
+			write: false
+		}
+	});
+}
+
+/**
+ * @param {string} id
+ * @param {string} name
+ * @param {string} role
+ * @param {string} type
+ * @param {string | number} value
+ */
+function generateStateObject(id, name, role, type, value) {
+	//TODO: manuell prüfen ob state schon existiert?
+	adapter.setObjectNotExists(id, {
+		type: 'state',
+		common: {
+			name: name,
+			role: role,
+			type: type,
+			value: value,
+			read: true,
+			write: false
+		}
+	});
+	adapter.setState(id, value, true);
 }
 
 function getRequestBody(adr) {
