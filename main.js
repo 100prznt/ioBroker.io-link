@@ -636,8 +636,11 @@ const getValue = async (endpoint, request) => {
 	return res.data['data']['value'];
 }
 
+/**
+ * @param {string} name
+ */
 function getIdString(name) {
-	return name.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_').toLowerCase();
+	return name.replace(/[&\/\\#,+()$~%.'":*?<>{}\s]/g, '_').toLowerCase();
 }
 
 /**
