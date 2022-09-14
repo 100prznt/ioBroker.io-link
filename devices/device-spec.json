@@ -77,7 +77,7 @@
             "bitWidth": 1,
             "bitOffset": 1,
             "stateConfiguration": {
-                "name": "Diital Out 2",
+                "name": "Digital Out 2",
                 "type": "boolean",
                 "role": "indicator"
             }
@@ -87,7 +87,7 @@
             "bitWidth": 1,
             "bitOffset": 0,
             "stateConfiguration": {
-                "name": "Diital Out 1",
+                "name": "Digital Out 1",
                 "type": "boolean",
                 "role": "indicator"
             }

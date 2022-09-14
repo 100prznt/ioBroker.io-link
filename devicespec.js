@@ -24,7 +24,7 @@ class DeviceSpec {
     name = '';
     minValue = Number.NaN;
     maxValue = Number.NaN;
-    states = new Array();
+    states = new State();
     bitWidth = Number.NaN;
     bitOffset = Number.NaN;
     encodeing = '';
@@ -32,6 +32,7 @@ class DeviceSpec {
   }
 
   class State {
+    name = '';
     value = Number.NaN;
     state = '';
   }
