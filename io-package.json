@@ -88,8 +88,7 @@
 	},
 	"native": {
 		"ifmSmA1x5xIp": "",
-		"ifmSmIoLinkPort": "1",
-		"iolink_port3": ""
+		"ifmSmIoLinkPort": "1"
 	},
 	"objects": [],
 	"instanceObjects": []

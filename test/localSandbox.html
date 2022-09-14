@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="../devicespec.js"></script>
+        <!--<script type="text/javascript" src="require.js"></script>-->
+    </head>
+    <body>
+
+        <h2>JavaScript Sandbox</h2>
+
+        <p>Output:</p>
+
+        <p id="output"></p>
+
+        <script>
+            
+            var dummySpec = new DeviceSpec();
+            dummySpec.deviceSpecName = "hallo";
+
+            const json = require('../devices/device-spec.json'); //(with path)
+
+
+            var spec2 = DeviceSpec.from(json);
+
+            document.getElementById("output").innerHTML = spec2.deviceSpecName;
+
+
+
+        </script>
+    </body>
+</html>

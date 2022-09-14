@@ -712,11 +712,9 @@ adapter.on('unload', function (callback) {
 // is called when adapter starts
 adapter.on('ready', function () {
 	adapter.log.info('IO-Link adapter - started');
-	adapter.log.info(`IO-Link adapter - ${adapter.cofig.iolink_port3}`);
 
 	const endpoint = adapter.config.ifmSmA1x5xIp;
 	const iolinkport = adapter.config.ifmSmIoLinkPort;
-	const iolink_port3 = adapter.cofig.iolink_port3;
 
 	adapter.log.debug('IO-Link adapter - fetching data started');
 	if(endpoint && iolinkport){
