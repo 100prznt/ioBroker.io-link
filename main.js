@@ -102,8 +102,10 @@ const getPortData = async (/** @type {string} */ endpoint, /** @type {number} */
 				});
 			}
 			catch (error) {
-				adapter.log.warning('IO-Link adapter - ERROR: ' + error);
+				adapter.log.warn('IO-Link adapter - ERROR: ' + error);
 			}
+		} else {
+			adapter.log.warn('no devicespec?: ' + devicespec);
 		}
 
 	} catch (error) {
