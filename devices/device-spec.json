@@ -1,11 +1,14 @@
 {
     "deviceSpecName": "IFM 16 bit pressure sensor",
     "deviceClass": "PressureSensor",
-    "supportedDeviceIds": {
-        "310": [
-            "982"
-        ]
-    },
+    "supportedDeviceIds": [
+        {
+            "vendorId": 310,
+            "deviceIds": [
+                982
+            ]
+        }
+    ],
     "processDataIn": [
         {
             "name": "pressure",

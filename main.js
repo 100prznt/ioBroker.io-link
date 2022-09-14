@@ -9,7 +9,10 @@ const adapter = new utils.Adapter('io-link');
 // additional required packackages
 const axios = require('axios');
 
-const getPortData = async (endpoint, iolinkport, portschannelpath) => {
+//DeviceSpec class
+const DeviceSpec = require('./devicespec.js')
+
+const getPortData = async (/** @type {string} */ endpoint, /** @type {number} */ iolinkport, /** @type {string} */ portschannelpath, /** @type {DeviceSpec | null} */ devicespec) => {
 	try {
 		//sensor info and process data requests
 		let requestSensorComSpeed =  getRequestBody(`/iolinkmaster/port[${iolinkport}]/comspeed/getdata`);
@@ -85,6 +88,23 @@ const getPortData = async (endpoint, iolinkport, portschannelpath) => {
 		generateStateObject(`${idInfo}.serialnumber`, 'Serial number', 'value', 'string', serialnumber);
 
 		generateStateObject(`${idProcessDataIn}.raw`, 'PDI', 'value', 'string', processdatain);
+
+		if (devicespec != null) {
+			try {
+				adapter.log.info(devicespec.deviceSpecName + ' loaded');
+				devicespec.processDataIn.forEach(pdi => {
+					let baseId = idProcessDataIn;
+					let sc = pdi.StateConfiguration;
+					if (sc.generateChannel) {
+						baseId = `${idProcessDataIn}.${getIdString(sc.name)}`;
+						generateChannelObject(baseId, sc.name);
+					}
+				});
+			}
+			catch (error) {
+				adapter.log.warning('IO-Link adapter - ERROR: ' + error);
+			}
+		}
 
 	} catch (error) {
 		adapter.log.info('IO-Link adapter - ERROR: ' + error);
@@ -184,10 +204,13 @@ const getData = async (endpoint, iolinkport) => {
 
 		var idSensor = `${masterDeviceName}.${iolinkport}.${sensorName}`;
 
+		const json = require('./devices/device-spec.json'); //(with path)
+		var dummySpec = DeviceSpec.from(json);
+
 		generateChannelObject(`${masterDeviceName}.iolinkports`, 'IO-Link Ports')
-		await getPortData(endpoint, 1, `${masterDeviceName}.iolinkports`);
-		await getPortData(endpoint, 2, `${masterDeviceName}.iolinkports`);
-		await getPortData(endpoint, 3, `${masterDeviceName}.iolinkports`);
+		await getPortData(endpoint, 1, `${masterDeviceName}.iolinkports`, null);
+		await getPortData(endpoint, 2, `${masterDeviceName}.iolinkports`, dummySpec);
+		//await getPortData(endpoint, 3, `${masterDeviceName}.iolinkports`);
 
 
 		adapter.setObjectNotExists(idSensor, {
@@ -609,6 +632,10 @@ const getValue = async (endpoint, request) => {
 		headers: {'content-type' : 'application/json'}
 	});
 	return res.data['data']['value'];
+}
+
+function getIdString(name) {
+	return name.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_').toLowerCase();
 }
 
 /**

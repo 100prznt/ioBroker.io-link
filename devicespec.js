@@ -1,8 +1,8 @@
 class DeviceSpec {
     deviceSpecName = '';
     deviceClass = '';
-    supportedDeviceIds = new Array();
-    processDataIn = new ProcessDataIn();
+    supportedDeviceIds = new VendorDevices();
+    processDataIn = new Array();
 
 
     constructor() {
@@ -20,7 +20,12 @@ class DeviceSpec {
 
   module.exports = DeviceSpec;
 
-  class ProcessDataIn {
+class VendorDevices {
+  vendorId = Number.NaN;
+  deviceIds = new Array();
+}
+
+class ProcessDataIn {
     name = '';
     minValue = Number.NaN;
     maxValue = Number.NaN;
@@ -29,15 +34,15 @@ class DeviceSpec {
     bitOffset = Number.NaN;
     encodeing = '';
     stateConfiguration = new StateConfiguration();
-  }
+}
 
-  class State {
+class State {
     name = '';
     value = Number.NaN;
     state = '';
-  }
+}
 
-  class StateConfiguration {
+class StateConfiguration {
     name = '';
     unit = '';
     type = 'string'
@@ -46,5 +51,5 @@ class DeviceSpec {
     scalingOffset = Number.NaN;
     generateStatus = false;
     generateChannel = false;
-  }
+}
   
