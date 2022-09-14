@@ -94,7 +94,7 @@ const getPortData = async (/** @type {string} */ endpoint, /** @type {number} */
 				adapter.log.info(devicespec.deviceSpecName + ' loaded');
 				devicespec.processDataIn.forEach(pdi => {
 					let baseId = idProcessDataIn;
-					let sc = pdi.StateConfiguration;
+					let sc = pdi.stateConfiguration;
 					if (sc.generateChannel == true) {
 						baseId = `${idProcessDataIn}.${getIdString(sc.name)}`;
 						generateChannelObject(baseId, sc.name);

@@ -13,6 +13,13 @@ const json = require('../devices/device-spec.json'); //(with path)
 
 var spec2 = DeviceSpec.from(json);
 
+spec2.processDataIn.forEach(pdi => {
+    let sc = pdi.stateConfiguration;
+    if (sc.generateChannel == true) {
+        console.log(sc.name);
+    }
+});
+
 //var fu2 = spec2.processDataIn.forEach(myFunc);
 
 if (Array.isArray(spec2.supportedDeviceIds))
