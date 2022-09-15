@@ -15,15 +15,15 @@ const DeviceSpec = require('./devicespec.js')
 const getPortData = async (/** @type {string} */ endpoint, /** @type {number} */ iolinkport, /** @type {string} */ portschannelpath, /** @type {DeviceSpec | null} */ devicespec) => {
 	try {
 		//sensor info and process data requests
-		let requestSensorComSpeed =  getRequestBody(`/iolinkmaster/port[${iolinkport}]/comspeed/getdata`);
-		let requestSensorCycletime = getRequestBody(`/iolinkmaster/port[${iolinkport}]/mastercycletime_actual/getdata`);
+		let requestSensorComSpeed =		getRequestBody(`/iolinkmaster/port[${iolinkport}]/comspeed/getdata`);
+		let requestSensorCycletime =	getRequestBody(`/iolinkmaster/port[${iolinkport}]/mastercycletime_actual/getdata`);
 
-		let requestSensorVendorId =  getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/vendorid/getdata`);
-		let requestSensorId =        getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/deviceid/getdata`);
-		let requestSensorName =      getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/productname/getdata`);
-		let requestDeviceSn =        getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/serial/getdata`);
-		let requestSensorStatus =    getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/status/getdata`);
-		let requestSensorData = getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/pdin/getdata`);
+		let requestSensorVendorId =		getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/vendorid/getdata`);
+		let requestSensorId =			getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/deviceid/getdata`);
+		let requestSensorName =			getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/productname/getdata`);
+		let requestDeviceSn =			getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/serial/getdata`);
+		let requestSensorStatus =		getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/status/getdata`);
+		let requestSensorData =			getRequestBody(`/iolinkmaster/port[${iolinkport}]/iolinkdevice/pdin/getdata`);
 
 		
 
@@ -92,13 +92,41 @@ const getPortData = async (/** @type {string} */ endpoint, /** @type {number} */
 		if (devicespec != null) {
 			try {
 				adapter.log.info(devicespec.deviceSpecName + ' loaded');
-				devicespec.processDataIn.forEach(pdi => {
-					let baseId = idProcessDataIn;
+
+				devicespec.processDataIn.forEach((/** @type {{ name: string; minValue: number; maxValue: number; bitOffset: number; bitWidth: number; encoding: string; stateConfiguration: { name: string; unit: string; type: string; role: string; scalingFactor: number; scalingOffset: number; generateValue: boolean; generateStatus: boolean; generateChannel: boolean; }; states: any[]; }} */ pdi) => {
+					
 					let sc = pdi.stateConfiguration;
-					if (sc.generateChannel == true) {
-						baseId = `${idProcessDataIn}.${getIdString(sc.name)}`;
-						generateChannelObject(baseId, sc.name);
+					let baseId = `${idProcessDataIn}.${getIdString(sc.name)}`;
+
+					let state = 'OK'; //TODO: parse state as string
+					let value = 'NaN'; //TODO: parse value as target type
+
+					if (sc.generateChannel || sc.generateStatus || sc.generateValue) {
+						if (sc.generateChannel == true) {
+							generateChannelObject(baseId, sc.name);
+							if (sc.generateStatus) {
+								generateStateObject(`${baseId}.status`, 'Status', 'info.status', 'string', state);
+							}
+							if (sc.generateValue) {
+								//value must fit target type!
+								generateStateObject(`${baseId}.value`, 'Value', sc.role, sc.type, value, sc.unit);
+							}
+						}
+						else { //without channel
+							if (sc.generateStatus) {
+								generateStateObject(`${baseId}_status`, `${sc.name} Status`, 'info.status', 'string', state);
+							}
+							if (sc.generateValue) {
+								//value must fit target type!
+								generateStateObject(`${baseId}`, sc.name, sc.role, sc.type, value, sc.unit);
+							}
+						}
 					}
+					else {
+						//ERROR
+						adapter.log.info('IO-Link adapter: No states are generated!');
+					}
+
 				});
 			}
 			catch (error) {
@@ -681,8 +709,9 @@ function generateDeviceObject(id, name) {
  * @param {string} role
  * @param {string} type
  * @param {string | number} value
+ * @param {string} unit
  */
-function generateStateObject(id, name, role, type, value) {
+function generateStateObject(id, name, role, type, value, unit = '') {
 	//TODO: manuell prüfen ob state schon existiert?
 	adapter.setObjectNotExists(id, {
 		type: 'state',
@@ -691,6 +720,7 @@ function generateStateObject(id, name, role, type, value) {
 			role: role,
 			type: type,
 			value: value,
+			unit: unit,
 			read: true,
 			write: false
 		}
@@ -698,11 +728,17 @@ function generateStateObject(id, name, role, type, value) {
 	adapter.setState(id, value, true);
 }
 
+/**
+ * @param {string} adr
+ */
 function getRequestBody(adr) {
 	return `{"code": "request", "cid": 1, "adr": "${adr}"}`;
 }
 
 //Convert a hex string to a byte array
+/**
+ * @param {string} hexString
+ */
 function hexToBytes(hexString) {
     for (var bytes = [], c = 0; c < hexString.length; c += 2)
         bytes.push(parseInt(hexString.substr(c, 2), 16));

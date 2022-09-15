@@ -38,6 +38,7 @@
                 "role": "value",
                 "scalingFactor": 0.01,
                 "scalingOffset": 0,
+                "generateValue": true,
                 "generateStatus": true,
                 "generateChannel": true
             }

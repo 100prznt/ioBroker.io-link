@@ -30,7 +30,7 @@ spec2.supportedDeviceIds.forEach(vendor => {
     });
 });
 
-spec2.processDataIn.forEach(item => {
+spec2.processDataIn.forEach((/** @type {{ name: string; minValue: string; maxValue: string; bitOffset: string; bitWidth: string; encoding: string; stateConfiguration: { name: string; unit: string; type: string; role: string; scalingFactor: string; scalingOffset: string; generateValue: string; generateStatus: string; generateChannel: string; }; states: any[]; }} */ item) => {
     console.log('name: ' + item.name);
     console.log('minValue: ' + item.minValue);
     console.log('maxValue: ' + item.maxValue);
@@ -43,6 +43,9 @@ spec2.processDataIn.forEach(item => {
     console.log('stateConfiguration role: ' + item.stateConfiguration.role);
     console.log('stateConfiguration scalingFactor: ' + item.stateConfiguration.scalingFactor);
     console.log('stateConfiguration scalingOffset: ' + item.stateConfiguration.scalingOffset);
+    console.log('stateConfiguration generateValue: ' + item.stateConfiguration.generateValue);
+    console.log('stateConfiguration generateStatus: ' + item.stateConfiguration.generateStatus);
+    console.log('stateConfiguration generateChannel: ' + item.stateConfiguration.generateChannel);
     
     if (Array.isArray(item.states)) {
         item.states.forEach(item => {

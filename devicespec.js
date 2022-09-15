@@ -49,6 +49,7 @@ class StateConfiguration {
     role = 'value';
     scalingFactor = Number.NaN;
     scalingOffset = Number.NaN;
+    generateValue = false;
     generateStatus = false;
     generateChannel = false;
 }
